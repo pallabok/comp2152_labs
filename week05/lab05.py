@@ -29,13 +29,15 @@ def fib(n):
         int: The nth Fibonacci number
     """
     # TODO: Base case 1 - If n equals 0, return 0
-
+    if n == 0:
+        return 0
 
     # TODO: Base case 2 - If n equals 1, return 1
-
+    if n == 1:
+        return 1
 
     # TODO: Recursive case - Return fib(n-1) + fib(n-2)
-    pass  # Remove this line when you add your code
+    return fib(n - 1) + fib(n - 2)
 
 
 # Test cases for Fibonacci
@@ -79,16 +81,25 @@ def fizz_buzz(n):
 
     # TODO: Loop from 1 to n (inclusive)
     # Hint: Use range(1, n + 1)
+    for i in range(1, n + 1):
 
         # TODO: Check if divisible by BOTH 3 and 5 FIRST
         # Hint: if i % 3 == 0 and i % 5 == 0
+        if i % 3 == 0 and i % 5 == 0:
+            result.append("FizzBuzz")
 
         # TODO: Then check if divisible by 3 only
+        elif i % 3 == 0:
+            result.append("Fizz")
 
         # TODO: Then check if divisible by 5 only
+        elif i % 5 == 0:
+            result.append("Buzz")
 
         # TODO: Otherwise, append the number as a string
         # Hint: result.append(str(i))
+        else:
+            result.append(str(i))
 
     return result
 
@@ -119,9 +130,6 @@ print("Expected: ['1']")
 # Question 3: Binary Search (LeetCode #704)
 # Concepts: Divide & Conquer, Iterative and Recursive
 # ============================================================
-print("\n" + "=" * 50)
-print("Question 3: Binary Search (#704)")
-print("=" * 50)
 
 
 # Part A: Iterative Solution
@@ -147,7 +155,17 @@ def binary_search_iterative(nums, target):
     #   - If nums[mid] == target, return mid
     #   - If target < nums[mid], search left half: right = mid - 1
     #   - If target > nums[mid], search right half: left = mid + 1
+    while left <= right:
+        mid = (left + right) // 2
 
+        if nums[mid] == target:
+            return mid
+
+        if target < nums[mid]:
+            right = mid - 1
+
+        else:
+            left = mid + 1
 
     # TODO: Return -1 if target not found
     return -1
@@ -168,99 +186,21 @@ def binary_search_recursive(nums, target, left, right):
         int: Index of target, or -1 if not found
     """
     # TODO: Base case - If left > right, return -1 (target not found)
-
+    if left > right:
+        return -1
 
     # TODO: Calculate mid = (left + right) // 2
-
+    mid = (left + right) // 2
 
     # TODO: If nums[mid] == target, return mid
-
+    if nums[mid] == target:
+        return mid
 
     # TODO: If target < nums[mid], recurse on left half
     # Hint: return binary_search_recursive(nums, target, left, mid - 1)
-
+    if target < nums[mid]:
+        return binary_search_recursive(nums, target, left, mid - 1)
 
     # TODO: If target > nums[mid], recurse on right half
     # Hint: return binary_search_recursive(nums, target, mid + 1, right)
-
-    pass  # Remove this line when you add your code
-
-
-# Wrapper function for recursive solution
-def search_recursive(nums, target):
-    """Wrapper function to call recursive binary search."""
-    if len(nums) == 0:
-        return -1
-    return binary_search_recursive(nums, target, 0, len(nums) - 1)
-
-
-# Test cases for Binary Search
-print("\n--- Part A: Iterative Binary Search ---")
-test_cases = [
-    ([-1, 0, 3, 5, 9, 12], 9),
-    ([-1, 0, 3, 5, 9, 12], 2),
-    ([1], 1),
-    ([1, 2, 3, 4, 5], 1),
-    ([1, 2, 3, 4, 5], 5),
-    ([1, 2, 3, 4, 5], 3),
-    ([], 5),
-]
-
-for nums, target in test_cases:
-    result = binary_search_iterative(nums, target)
-    print("nums=" + str(nums) + ", target=" + str(target) + " -> index: " + str(result))
-
-print("\n--- Part B: Recursive Binary Search ---")
-for nums, target in test_cases:
-    result = search_recursive(nums, target)
-    print("nums=" + str(nums) + ", target=" + str(target) + " -> index: " + str(result))
-
-
-# ============================================================
-# Verification: Both methods should give same results
-# ============================================================
-print("\n" + "=" * 50)
-print("Verification: Both Methods Should Match")
-print("=" * 50)
-
-nums = [-1, 0, 3, 5, 9, 12]
-print("Array: " + str(nums))
-print("-" * 40)
-
-for target in [-1, 0, 3, 5, 9, 12, 2, 100]:
-    iter_result = binary_search_iterative(nums, target)
-    rec_result = search_recursive(nums, target)
-    match = "PASS" if iter_result == rec_result else "FAIL"
-    print("Target " + str(target).rjust(4) + ": Iterative=" + str(iter_result).rjust(2) + ", Recursive=" + str(rec_result).rjust(2) + " " + match)
-
-
-# ============================================================
-# Summary
-# ============================================================
-print("\n" + "=" * 60)
-print("COMPLETE THE TODO SECTIONS ABOVE!")
-print("=" * 60)
-print("""
-Key Concepts to Practice:
-
-1. FIBONACCI (Recursion)
-   - Two base cases: F(0)=0, F(1)=1
-   - Recursive case: F(n) = F(n-1) + F(n-2)
-   - Each call moves toward base case
-
-2. FIZZBUZZ (Functions)
-   - Function with parameter and return value
-   - Conditional logic (if/elif/else)
-   - Building and returning a list
-   - Order of conditions matters!
-
-3. BINARY SEARCH (Divide & Conquer)
-   - Iterative: while loop with left/right pointers
-   - Recursive: base case + recursive calls
-   - O(log n) time complexity
-   - Array MUST be sorted!
-
-Connection to Grokking Algorithms:
-- Binary Search: Chapter 1
-- Recursion: Chapter 3
-""")
+    return binary_search_recursive(nums, target, mid + 1, right)
